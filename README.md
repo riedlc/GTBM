@@ -1,4 +1,4 @@
-# GTBM — Game-Theoretic Block Model
+# GTBM — Game Theory Block Model
 
 Official implementation of the paper
 
@@ -97,7 +97,7 @@ python -m constrained_sbm.run_inference --dataset zachary   # equivalent
 The paper's fitting configuration is
 
 ```bash
-gtbm --dataset zachary --gauge pin_diag --degree-corrected --n-spectral 4 --restarts 100
+gtbm --dataset zachary --gauge pin_diag --degree-corrected --n-spectral 4 --restarts 1000 --seed 0
 ```
 
 To choose β by maximum ELBO instead of fixing it (Brent's method over `[--beta-low, --beta-high]`,
@@ -109,7 +109,7 @@ gtbm --dataset zachary --gauge pin_diag --beta-sweep --beta-low 0.5 --beta-high 
 
 **Game labels.** For K = 2 the report names the recovered game (e.g. *Coordination*, *Stag Hunt*,
 *Hawk-Dove*, *Harmony*) together with the two role labels (e.g. *Attractor / Satellite*). These
-are the labels of the taxonomy introduced in Riedl & Smead (2026), Appendix section
+are the labels of the taxonomy introduced in Appendix section
 "Game Taxonomy and Role Labels"; `constrained_sbm.game_label(a, b, c, d)` exposes the same mapping.
 
 The quick-start command fits the constrained and free SBM by EM and prints the recovered payoffs, the joint
@@ -158,9 +158,8 @@ Example edge list (`network.txt`):
 
 ```bash
 gtbm --input network.txt
-gtbm --input network.gml --method gibbs
-gtbm --input adjacency.npz --gauge pin_diag --degree-corrected --n-spectral 4 --restarts 100
-gtbm --input network.txt --cv-folds 10 --out-json result.json
+gtbm --input network.gml
+gtbm --input adjacency.npz
 gtbm --input directed_network.npz --directed yes --gauge pin_diag --degree-corrected
 ```
 
@@ -168,10 +167,6 @@ Useful flags: `--K` (number of blocks), `--beta` / `--infer-beta` / `--beta-swee
 `--degree-corrected`, `--directed`, `--canonicalize` / `--no-canonicalize`, `--restarts` and
 `--n-spectral` (EM), `--n-samples` / `--n-chains` (Gibbs), `--out-json` to save the full report.
 See `--help` for the full list.
-
-From Python, build any `scipy.sparse` symmetric binary adjacency matrix and call `fit` directly
-(see below); `constrained_sbm.utils.load_graph(path, symmetrize=False)` is the loader the CLI
-uses (the default `symmetrize=True` merges arcs into undirected edges).
 
 ---
 
@@ -202,10 +197,6 @@ Diagnostics are exposed directly too: `compute_model_comparison` (MDL / Vuong),
 `compare_waic`, and `loo_from_loglik` / `compare_loo`.
 
 ---
-
-## Citation
-
-If you use this code, please cite the paper (BibTeX at the top of this file).
 
 ## License
 
