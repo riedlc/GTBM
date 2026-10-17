@@ -1,0 +1,28 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "gtbm"
+version = "0.1.0"
+description = "GTBM (Game-Theoretic Block Model): a constrained Stochastic Block Model with a game-theoretic mixing matrix (EM + Gibbs inference)"
+readme = "README.md"
+authors = [{ name = "Christoph Riedl" }, { name = "Rory Smead" }]
+requires-python = ">=3.9"
+license = { file = "LICENSE" }
+dependencies = [
+    "numpy>=1.21",
+    "scipy>=1.7",
+    "networkx>=2.6",
+    "scikit-learn>=1.0",
+]
+
+[project.optional-dependencies]
+# PSIS-LOO-CV is computed via arviz; WAIC and everything else work without it.
+loo = ["arviz>=0.12"]
+
+[project.scripts]
+gtbm = "constrained_sbm.run_inference:main"
+
+[tool.setuptools]
+packages = ["constrained_sbm"]
